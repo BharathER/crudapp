@@ -7,9 +7,9 @@ const PORT = 5000;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
   res.send("haiiii");
-});
+}); */
 
 connection.connect(function (err) {
   if (err) {
@@ -88,7 +88,7 @@ app.post("/api/data", (req, res) => {
   } = req.body;
 
   connection.query(
-    "INSERT INTO Customer (CustomerName, ResidentsPermitID, CustomerMobile, HouseName, AreaNumber, StreetNumber, StreetName, BuildNumber, LocationGPS, LocationName, State, District, Country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO customer (CustomerName, ResidentsPermitID, CustomerMobile, HouseName, AreaNumber, StreetNumber, StreetName, BuildNumber, LocationGPS, LocationName, State, District, Country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       CustomerName,
       ResidentsPermitID,
@@ -134,7 +134,7 @@ app.put("/api/data", (req, res) => {
   } = req.body;
 
   const UPDATE_QUERY = `
-  UPDATE Customer
+  UPDATE customer
   SET 
     CustomerName = ?,
     ResidentsPermitID = ?,

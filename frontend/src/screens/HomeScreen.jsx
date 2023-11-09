@@ -1,42 +1,42 @@
-import React from 'react'
-import { Row, Col, Table, Button, Container, Image } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import Axios from 'axios'
-import { FaEdit, FaTrash } from 'react-icons/fa'
-import { toast } from 'react-toastify'
-import loader from '../assets/loader.gif'
+import React from "react";
+import { Row, Col, Table, Button, Container, Image } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import Axios from "axios";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import loader from "../assets/loader.gif";
 const HomeScreen = () => {
-  const [customers, setCustomers] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchData()
-    setIsLoading(false)
-  }, [])
+    fetchData();
+    setIsLoading(false);
+  }, []);
 
   const fetchData = () => {
-    Axios.get('/api/data')
+    Axios.get("/api/data")
       .then((response) => {
-        setCustomers(response.data)
+        setCustomers(response.data);
       })
       .catch((error) => {
-        console.log('Error fetching data:', error)
-      })
-  }
+        console.log("Error fetching data:", error);
+      });
+  };
 
   const deleteHandler = (id) => {
     Axios.delete(`/api/data/${id}`)
       .then((response) => {
-        console.log(response)
+        console.log(response);
         if (response.status === 200) {
-          toast.success('Customer Record Deleted')
-          fetchData()
+          toast.success("Customer Record Deleted");
+          fetchData();
         }
       })
       .catch((error) => {
-        console.log('Error fetching data:', error)
-      })
+        console.log("Error fetching data:", error);
+      });
     /* try {
       const response = Axios.delete(`/api/data/${id}`);
       const { data, status } = response;
@@ -49,26 +49,26 @@ const HomeScreen = () => {
       toast.error("Error deleting customer record");
       console.error(err);
     } */
-  }
+  };
 
   return (
     <>
       {!isLoading ? (
         <>
-          <Row className='align-items-center justify-content-between'>
-            <Col className='mt-3'>
+          <Row className="align-items-center justify-content-between">
+            <Col className="mt-3">
               <h1>Customer List</h1>
             </Col>
-            <Col className='text-end'>
-              <LinkContainer to='/adduserscreen'>
-                <Button className='btn btn-sm'>
-                  <FaEdit className='mx-2' />
+            <Col className="text-end">
+              <LinkContainer to="/adduserscreen">
+                <Button className="btn btn-sm">
+                  <FaEdit className="mx-2" />
                   Add User
                 </Button>
               </LinkContainer>
             </Col>
           </Row>
-          <Row className='mt-3'>
+          <Row className="mt-3">
             <Table responsive striped>
               <thead>
                 <tr>
@@ -114,15 +114,15 @@ const HomeScreen = () => {
                           },
                         }}
                       >
-                        <Button variant='light' className='btn-sm mx-2'>
+                        <Button variant="light" className="btn-sm mx-2">
                           <FaEdit />
                         </Button>
                       </LinkContainer>
                     </td>
                     <td>
                       <Button
-                        variant='light'
-                        className='btn-sm mx-2'
+                        variant="light"
+                        className="btn-sm mx-2"
                         onClick={() => deleteHandler(customer.CustomerID)}
                       >
                         <FaTrash />
@@ -135,12 +135,12 @@ const HomeScreen = () => {
           </Row>
         </>
       ) : (
-        <Container style={{ display: 'flex', justifyContent: 'center' }}>
+        <Container style={{ display: "flex", justifyContent: "center" }}>
           <Image src={loader} />
         </Container>
       )}
     </>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
