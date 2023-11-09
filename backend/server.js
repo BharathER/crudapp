@@ -181,6 +181,8 @@ app.put("/api/data", (req, res) => {
 
 // Your API endpoints and routes go here
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 app.use(express.static(path.join(__dirname, "/frontend/build")));
 
 app.get("*", (req, res) =>
