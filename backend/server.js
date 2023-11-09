@@ -181,13 +181,20 @@ app.put("/api/data", (req, res) => {
 
 // Your API endpoints and routes go here
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
+const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "/frontend/build")));
 
 app.get("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
 );
+
+/* const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+); */
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
