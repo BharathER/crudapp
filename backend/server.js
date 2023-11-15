@@ -1,15 +1,14 @@
 import express from "express";
 import connection from "./config/db.js";
-import path from "path";
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
 
-/* app.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("haiiii");
-}); */
+});
 
 connection.connect(function (err) {
   if (err) {
@@ -21,16 +20,19 @@ connection.connect(function (err) {
 
 //Fetch Data From DB
 app.get("/api/data", (req, res) => {
-  console.log("ethy");
-  connection.query("SELECT * FROM customer", (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      console.log(result);
-      res.send(result);
+  // console.log('ethy')
+  connection.query(
+    "SELECT * FROM customer ORDER BY CustomerID DESC",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        // console.log(result)
+        res.send(result);
+      }
     }
-  });
+  );
 });
 
 //Fetch Data From DB using id
@@ -43,7 +45,7 @@ app.get("/api/data/:id", async (req, res) => {
         console.log(err);
         res.status(500).send("Internal Server Error");
       } else {
-        console.log(result);
+        // console.log(result)
         res.send(result);
       }
     }
@@ -88,7 +90,7 @@ app.post("/api/data", (req, res) => {
   } = req.body;
 
   connection.query(
-    "INSERT INTO customer (CustomerName, ResidentsPermitID, CustomerMobile, HouseName, AreaNumber, StreetNumber, StreetName, BuildNumber, LocationGPS, LocationName, State, District, Country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO Customer (CustomerName, ResidentsPermitID, CustomerMobile, HouseName, AreaNumber, StreetNumber, StreetName, BuildNumber, LocationGPS, LocationName, State, District, Country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       CustomerName,
       ResidentsPermitID,
@@ -134,7 +136,7 @@ app.put("/api/data", (req, res) => {
   } = req.body;
 
   const UPDATE_QUERY = `
-  UPDATE customer
+  UPDATE Customer
   SET 
     CustomerName = ?,
     ResidentsPermitID = ?,
@@ -179,22 +181,13 @@ app.put("/api/data", (req, res) => {
   );
 });
 
+// app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+// app.get('*', (req, res) =>
+//   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+// )
+
 // Your API endpoints and routes go here
-
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/frontend/build")));
-
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-);
-
-/* const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
-app.use(express.static(path.join(__dirname, "/frontend/build")));
-
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-); */
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

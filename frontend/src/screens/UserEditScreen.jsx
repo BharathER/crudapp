@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import Axios from 'axios'
 import { Button, Row, Col, Form } from 'react-bootstrap'
@@ -8,8 +8,22 @@ import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const UserEditScreen = () => {
+  const input1Ref = useRef()
+  const input3Ref = useRef()
+  const input4Ref = useRef()
+  const input5Ref = useRef()
+  const input6Ref = useRef()
+  const input7Ref = useRef()
+  const input8Ref = useRef()
+  const input9Ref = useRef()
+  const input10Ref = useRef()
+  const input11Ref = useRef()
+  const input12Ref = useRef()
+  const input13Ref = useRef()
+  const input14Ref = useRef()
+
   const params = useParams()
-  const [customers, setCustomers] = useState([])
+  // const [customers, setCustomers] = useState([])
   const [name, setName] = useState('')
   const [rpid, setRpid] = useState('')
   const [mobile, setMobile] = useState('')
@@ -31,7 +45,7 @@ const UserEditScreen = () => {
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position)
+        // console.log(position)
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
         const gpsCoordinates = `${latitude},${longitude}`
@@ -46,7 +60,7 @@ const UserEditScreen = () => {
   const fetchData = async () => {
     Axios.get(`/api/data/${params.id}`)
       .then((response) => {
-        console.log(response.data[0])
+        // console.log(response.data[0])
         setName(response.data[0].CustomerName)
         setRpid(response.data[0].ResidentsPermitID)
         setMobile(response.data[0].CustomerMobile)
@@ -54,7 +68,7 @@ const UserEditScreen = () => {
         setAreaNumber(response.data[0].AreaNumber)
         setStreetNumber(response.data[0].StreetNumber)
         setStreetName(response.data[0].StreetName)
-        setBuildNumber(response.data.BuildNumber)
+        setBuildNumber(response.data[0].BuildNumber)
         setLocationGps(response.data[0].LocationGPS)
         setLocationName(response.data[0].LocationName)
         setState(response.data[0].State)
@@ -94,33 +108,15 @@ const UserEditScreen = () => {
       .catch((error) => {
         console.log(error)
       })
-    /*  try {
-      const response = axios
-        .put("/api/data", {
-          CustomerName: name,
-          ResidentsPermitID: rpid,
-          CustomerMobile: mobile,
-          HouseName: houseName,
-          AreaNumber: areaNumber,
-          StreetNumber: streetNumber,
-          StreetName: streetName,
-          BuildNumber: buildNumber,
-          LocationGPS: locationGps,
-          LocationName: locationName,
-          State: state,
-          District: district,
-          Country: country,
-        })
-        .then((responses) => {
-          console.log(responses);
-        });
-      toast.success("Customer data updated successfully");
-      setTimeout(() => {}, 2000);
-      let path = `/`;
-      navigate(path);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } */
+  }
+
+  const handleKeyPress = (event, nextInputRef, preventSubmit = true) => {
+    if (event.key === 'Enter' && preventSubmit) {
+      event.preventDefault()
+      if (nextInputRef && nextInputRef.current) {
+        nextInputRef.current.focus() // Move focus to the next input field
+      }
+    }
   }
 
   return (
@@ -145,6 +141,8 @@ const UserEditScreen = () => {
                 type='text'
                 placeholder='Enter Customer Name'
                 value={name}
+                ref={input1Ref}
+                onKeyDown={(e) => handleKeyPress(e, input3Ref)}
                 onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
@@ -170,6 +168,8 @@ const UserEditScreen = () => {
                 placeholder='Enter Customer Mobile'
                 //value={customer.CustomerMobile}
                 value={mobile}
+                ref={input3Ref}
+                onKeyDown={(e) => handleKeyPress(e, input4Ref)}
                 onChange={(e) => setMobile(e.target.value)}
               />
               <Form.Text className='text-muted'>
@@ -185,6 +185,8 @@ const UserEditScreen = () => {
                 placeholder='House Name'
                 //value={customer.HouseName}
                 value={houseName}
+                ref={input4Ref}
+                onKeyDown={(e) => handleKeyPress(e, input5Ref)}
                 onChange={(e) => setHouseName(e.target.value)}
               />
             </Form.Group>
@@ -197,6 +199,8 @@ const UserEditScreen = () => {
                 placeholder='Enter Area Number'
                 //value={customer.AreaNumber}
                 value={areaNumber}
+                ref={input5Ref}
+                onKeyDown={(e) => handleKeyPress(e, input6Ref)}
                 onChange={(e) => setAreaNumber(e.target.value)}
               />
             </Form.Group>
@@ -209,6 +213,8 @@ const UserEditScreen = () => {
                 placeholder='Street Number'
                 //value={customer.StreetNumber}
                 value={streetNumber}
+                ref={input6Ref}
+                onKeyDown={(e) => handleKeyPress(e, input7Ref)}
                 onChange={(e) => setStreetNumber(e.target.value)}
               />
             </Form.Group>
@@ -221,6 +227,8 @@ const UserEditScreen = () => {
                 placeholder='Enter Street Name'
                 //value={customer.StreetName}
                 value={streetName}
+                ref={input7Ref}
+                onKeyDown={(e) => handleKeyPress(e, input8Ref)}
                 onChange={(e) => setStreetName(e.target.value)}
               />
             </Form.Group>
@@ -233,6 +241,8 @@ const UserEditScreen = () => {
                 placeholder='Build Number'
                 // value={customer.BuildNumber}
                 value={buildNumber}
+                ref={input8Ref}
+                onKeyDown={(e) => handleKeyPress(e, input9Ref)}
                 onChange={(e) => setBuildNumber(e.target.value)}
               />
             </Form.Group>
@@ -249,6 +259,8 @@ const UserEditScreen = () => {
                   placeholder='Click here to Fetch GPS location'
                   //value={customer.LocationGPS}
                   value={locationGps}
+                  ref={input9Ref}
+                  onKeyDown={(e) => handleKeyPress(e, input10Ref)}
                   onChange={(e) => setLocationGps(e.target.value)}
                 />
                 <InputGroup.Text>
@@ -269,6 +281,8 @@ const UserEditScreen = () => {
                 placeholder='Enter location name'
                 //value={customer.LocationName}
                 value={locationName}
+                ref={input10Ref}
+                onKeyDown={(e) => handleKeyPress(e, input11Ref)}
                 onChange={(e) => setLocationName(e.target.value)}
               />
             </Form.Group>
@@ -281,6 +295,8 @@ const UserEditScreen = () => {
                 placeholder='Enter State'
                 //value={customer.State}
                 value={state}
+                ref={input11Ref}
+                onKeyDown={(e) => handleKeyPress(e, input12Ref)}
                 onChange={(e) => setState(e.target.value)}
               />
             </Form.Group>
@@ -293,6 +309,8 @@ const UserEditScreen = () => {
                 placeholder='Enter District'
                 //value={customer.District}
                 value={district}
+                ref={input12Ref}
+                onKeyDown={(e) => handleKeyPress(e, input13Ref)}
                 onChange={(e) => setDistrict(e.target.value)}
               />
             </Form.Group>
@@ -305,6 +323,8 @@ const UserEditScreen = () => {
                 placeholder='Enter Country'
                 //value={customer.Country}
                 value={country}
+                ref={input13Ref}
+                onKeyDown={(e) => handleKeyPress(e, input14Ref, false)}
                 onChange={(e) => setCountry(e.target.value)}
               />
             </Form.Group>
