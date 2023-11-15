@@ -7,9 +7,9 @@ const PORT = 5000;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
   res.send("haiiii");
-});
+}); */
 
 connection.connect(function (err) {
   if (err) {
