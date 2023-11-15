@@ -1,5 +1,6 @@
 import express from "express";
 import connection from "./config/db.js";
+import path from "path";
 
 const app = express();
 const PORT = 5000;
@@ -180,6 +181,14 @@ app.put("/api/data", (req, res) => {
     }
   );
 });
+/* const __dirname = path.dirname(new URL(import.meta.url).pathname); */
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+);
 
 // app.use(express.static(path.join(__dirname, '/frontend/build')))
 
